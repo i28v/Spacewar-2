@@ -24,6 +24,8 @@ class Game
     Time fireTime;
     Clock pressSpacebarClock;
     Time pressSpacebarTime;
+    Clock removeSpawnStarsClock;
+    Time removeSpawnStarsTime;
     // std::vector<AlienShip> alienShips;
     // std::vector<Asteroid> asteroids;
     std::vector<Bullet*> playerBullets;
@@ -33,6 +35,8 @@ class Game
     bool fireBullet;
     bool firstUpdateCycle;
     int numberOfBulletsBeingFired;
+    bool removeSpawnStars;
+    unsigned int starSize;
     void init();
     void events(RenderWindow& window, Event& event);
     void input();

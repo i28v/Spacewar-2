@@ -14,12 +14,15 @@ void Game::init()
     this->gameOver = false;
     this->paused = false;
     this->fireBullet = false;
+    this->removeSpawnStars = true;
     this->gameClock.restart();
     this->fireClock.restart();
     this->pressSpacebarClock.restart();
+    this->removeSpawnStarsClock.restart();
     for(int i = 0; i < 150; i++)
     {
-        this->backgroundStars.push_back(new Star({static_cast<float>(rand() % 800), static_cast<float>(rand() % 600)}, {1.0f, 1.0f}, Color::White));
+        starSize = rand() % 2 + 1;
+        this->backgroundStars.push_back(new Star({static_cast<float>(rand() % 800), static_cast<float>(rand() % 600)}, {starSize, starSize}, Color::White));
         this->backgroundStars[i]->appearsOnGameRun = true;
     }
 }
@@ -29,6 +32,14 @@ Game::~Game()
     delete this->window;
     delete this->event;
     delete this->player;
+    for(int i = 0; i < this->playerBullets.size(); i++)
+    {
+        this->playerBullets.erase(this->playerBullets.begin());
+    }
+    for(int i = 0; i < this->backgroundStars.size(); i++)
+    {
+        this->backgroundStars.erase(this->backgroundStars.begin());
+    }
 }
 
 void Game::events(RenderWindow& window, Event& event)
@@ -65,11 +76,23 @@ void Game::update()
 {
     this->gameTime = this->gameClock.getElapsedTime();
     this->fireTime = this->fireClock.getElapsedTime();
-    this->backgroundStars.push_back(new Star({static_cast<float>(rand() % 800), static_cast<float>(rand() % -1)}, {1.0f, 1.0f}, Color::White));
+    this->removeSpawnStarsTime = this->removeSpawnStarsClock.getElapsedTime();
+    /*
+    if(this->removeSpawnStarsTime.asSeconds() > 10 && this->removeSpawnStars == true)
+    {
+          this->removeSpawnStars = false;
+          for(int i = 0; i < 150; i++)
+          {
+              this->backgroundStars.erase(this->backgroundStars.end() - 1);
+          }
+    }
+    */
+    starSize = rand() % 2 + 1;
+    this->backgroundStars.push_back(new Star({static_cast<float>(rand() % 800), static_cast<float>(rand() % -1)}, {starSize, starSize}, Color::White));
     for(int i = 0; i < backgroundStars.size(); i++)
     {
         this->backgroundStars[i]->move({0.0f, 4.0f});
-        if(this->backgroundStars[i]->getPositionY() > 670 && this->backgroundStars[i]->appearsOnGameRun == false)
+        if(this->backgroundStars[i]->getPositionY() > 670  && this->removeSpawnStarsTime.asSeconds() > 3.5f /* this->backgroundStars[i]->appearsOnGameRun == false */ )
         {
             this->backgroundStars.erase(this->backgroundStars.begin());
         }
@@ -85,13 +108,22 @@ void Game::update()
         }
         break;
     case DOWN:
-        this->player->move({0.0f, 3.0f});
+        if(this->player->getPositionY() < 569)
+        {
+            this->player->move({0.0f, 3.0f});
+        }
         break;
     case LEFT:
-        this->player->move({-3.0f, 0.0f});
+        if(this->player->getPositionX() > 0)
+        {
+            this->player->move({-3.0f, 0.0f});
+        }
         break;
     case RIGHT:
-        this->player->move({3.0f, 0.0f});
+        if(this->player->getPositionX() < 770)
+        {
+            this->player->move({3.0f, 0.0f});
+        }
     }
     if(this->fireBullet == true)
     {
@@ -148,6 +180,7 @@ void Game::start()
                 this->input();
                 this->update();
                 this->draw(*this->window);
+               // std::cout << this->backgroundStars.size() << std::endl;
                 Sleep(16);
             }
         }
