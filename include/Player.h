@@ -20,6 +20,7 @@ public:
     void setHealth(int amount);
     void move(Vector2f direction);
     Vector2f getPosition();
+
     float getPositionX();
     float getPositionY();
 

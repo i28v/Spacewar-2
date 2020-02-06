@@ -1,6 +1,14 @@
 #ifndef DATA_INCLUDED
 #define DATA_INCLUDED
 
+#define DEBUG true
+
+#define log(MSG)                                       \
+{                                                      \
+    if(DEBUG == true) {std::cout << MSG << std::endl;} \
+}
+
+
 #if defined (__WIN32)
 #include <windows.h>
 #elif defined (__linux)
@@ -28,8 +36,6 @@ using namespace sf;
 #define DOWN  2
 #define LEFT  3
 #define RIGHT 4
-
-
 
 
 

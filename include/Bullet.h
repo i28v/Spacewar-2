@@ -12,6 +12,7 @@ class Bullet
         bool isBeingFired;
         Vector2f getPosition();
         FloatRect getHitbox();
+
         float getPositionX();
         float getPositionY();
         void setPosition(Vector2f position);

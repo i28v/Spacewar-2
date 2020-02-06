@@ -10,6 +10,7 @@ class Star
         void drawTo(RenderWindow& window);
         void setPosition(Vector2f position);
         void move(Vector2f direction);
+
         float getPositionX();
         float getPositionY();
         bool appearsOnGameRun;

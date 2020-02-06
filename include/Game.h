@@ -11,6 +11,7 @@ class Game
         Game();
         virtual ~Game();
         void start();
+        void cleanUp();
 
     protected:
 

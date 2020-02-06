@@ -1,85 +1,88 @@
-#include "Player.h"
+#include "../include/Player.h"
 
 Player::Player(Vector2f size, Vector2f position)
 {
-	pTexture = new Texture();
-	pSprite = new Sprite();
-	pTexture->loadFromMemory(playerData, sizeof(playerData));
-	pSprite->setTexture(*pTexture);
-	pSprite->setScale(size);
-	pSprite->setPosition(position);
+    this->pTexture = new Texture();
+    this->pSprite = new Sprite();
+    this->pTexture->loadFromMemory(playerData, sizeof(playerData));
+    this->pSprite->setTexture(*pTexture);
+    this->pSprite->setScale(size);
+    this->pSprite->setPosition(position);
+
 }
 
 Player::~Player()
 {
-	delete pTexture;
-	delete pSprite;
+    delete pTexture;
+    delete pSprite;
+
 }
 
 void Player::drawTo(RenderWindow& window)
 {
-	if (isVisible == true)
-	{
-		window.draw(*pSprite);
-	}
+    if(isVisible == true)
+    {
+        window.draw(*pSprite);
+    }
 }
 
 bool Player::getVisibility()
 {
-	return isVisible;
+    return isVisible;
 }
 
 void Player::setVisibility(bool value)
 {
-	isVisible = value;
+    isVisible = value;
 }
 
 int Player::getHealth()
 {
-	return health;
+    return health;
 }
 
 short Player::getDirection()
 {
-	return direction;
+    return direction;
 }
 
 void Player::setDirection(short value)
 {
-	direction = value;
+    direction = value;
 }
 
 Vector2f Player::getPosition()
 {
-	return pSprite->getPosition();
+    return pSprite->getPosition();
 }
 
 float Player::getPositionX()
 {
-	return pSprite->getPosition().x;
+    return pSprite->getPosition().x;
 }
 
 float Player::getPositionY()
 {
-	return pSprite->getPosition().y;
+    return pSprite->getPosition().y;
 }
 
 void Player::move(Vector2f direction)
 {
-	pSprite->move(direction);
+    pSprite->move(direction);
 }
 
 void Player::addHealth(int amount)
 {
-	health += amount;
+    health += amount;
 }
 
 void Player::subHealth(int amount)
 {
-	health -= amount;
+    health -= amount;
 }
 
 void Player::setHealth(int amount)
 {
-	health = amount;
+    health = amount;
 }
+
